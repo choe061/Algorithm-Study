@@ -8,6 +8,11 @@ import java.util.StringTokenizer;
 /**
  * Created by choi on 2017. 7. 12..
  * DP문제
+ * 둘다 선택안했을때
+ * 1선택
+ * 2선택
+ *
+ * 3가지 경우
  */
 public class Sticker_9465 {
 
