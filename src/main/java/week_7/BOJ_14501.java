@@ -3,7 +3,6 @@ package week_7;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 /**
@@ -27,21 +26,20 @@ public class BOJ_14501 {
 
     private static int getMaxBenefit(int[] T, int[] P) {
         int length = T.length;
-        int[] dp = new int[length];
-        dp[0] = 0;
+        int[] dp = new int[51];         //i일 까지 얻는 이익
+        int max = Integer.MIN_VALUE;
         for (int i=1; i<length; i++) {
-            System.out.println(T[i]+", "+P[i]);
-        }
-        System.out.println(Arrays.toString(dp));
-        return dp[length - 1];
-    }
+            int next1 = i + T[i];
+            int next2 = i + 1;
 
-    private static double getWageOfDay(int[] T, int[] P, int today) {
-        int lastDay = T.length;
-        if (T[today] + today - 1 > lastDay) {
-            return 0;   //N을 넘는다, 퇴사 전에 끝나는 일이 아님
-        } else {
-            return (double) P[today] / T[today];
+            if (next1 <= length) {
+                dp[next1] = Math.max(dp[next1], dp[i] + P[i]);
+            }
+            if (next2 <= length) {
+                dp[next2] = Math.max(dp[next2], dp[i]);
+            }
+            max = Math.max(Math.max(max, dp[next1]), dp[next2]);
         }
+        return max;
     }
 }
