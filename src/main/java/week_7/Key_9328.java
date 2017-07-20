@@ -10,6 +10,9 @@ import java.util.StringTokenizer;
 /**
  * Created by choi on 2017. 7. 18..
  * 벽으로 막혀있는 곳이 있어서 섬 다리 만들기 문제 처럼 지역을 나눠야함
+ *
+ * 현재 열쇠로 문을 열수 있으면 문서를 얻고 map에 있는 문과 문서를 벽(*)으로 만든다
+ * 해당하는 문의 열쇠가 없으면 문의 위치(x,y)를 저장하고 열쇠를 얻었을때 그 문의 위치부터 시작한다
  */
 public class Key_9328 {
     public static void main(String[] args) throws IOException {
@@ -20,6 +23,9 @@ public class Key_9328 {
             int h = Integer.parseInt(st.nextToken());
             int w = Integer.parseInt(st.nextToken());
             char[][] map = new char[h+1][w+1];
+            int[][] map_index = new int[h+1][w+1];
+            boolean[][] visited = new boolean[h+1][w+1];
+
             for (int j=1; j<=h; j++) {
                 char[] temp = br.readLine().toCharArray();
                 for (int k=1; k<=w; k++) {
@@ -31,10 +37,25 @@ public class Key_9328 {
             for (char k : key) {
                 keys.offer(k);
             }
+
+            //벽으로 나눠진 곳을 넘버링
+            int count = 0;
+            for (int j=0; j<=h; j++) {
+                for (int k=0; k<=w; k++) {
+                    if (map[j][k] == '.' && !visited[j][k]) {
+                        numberingMap(map, j, k, ++count, visited, map_index);
+                    }
+                }
+            }
+
             bfs(map, keys);
             //key 하나 당 bfs 한번씩 수행
         }
         br.close();
+    }
+
+    private static void numberingMap(char[][] map, int x, int y, int index, boolean[][] visited, int[][] map_index) {
+
     }
 
     private static Pair getStartPoint(char[][] map, char[] key) {

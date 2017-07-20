@@ -29,8 +29,8 @@ public class BOJ_14501 {
         int[] dp = new int[51];         //i일 까지 얻는 이익
         int max = Integer.MIN_VALUE;
         for (int i=1; i<length; i++) {
-            int next1 = i + T[i];
-            int next2 = i + 1;
+            int next1 = i + T[i];       //오늘 일을 한다
+            int next2 = i + 1;          //오늘 일을 안한다
 
             if (next1 <= length) {
                 dp[next1] = Math.max(dp[next1], dp[i] + P[i]);
