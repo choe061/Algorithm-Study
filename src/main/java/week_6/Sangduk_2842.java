@@ -83,7 +83,7 @@ public class Sangduk_2842 {       //상, 하, 좌, 우,5시, 7시, 11시, 1시
         }
 
         int result = max - min + getMaxK(distance, k_location);
-        System.out.println(result);
+        System.out.println("정답 : "+result);
         br.close();
     }
 
@@ -165,3 +165,30 @@ public class Sangduk_2842 {       //상, 하, 좌, 우,5시, 7시, 11시, 1시
     }
 
 }
+/**
+ * COCI 테스트 케이스
+ 3
+ K.P
+ ...
+ K.K
+ 3 3 4
+ 9 5 9
+ 8 3 7
+ 정답 : 5
+
+ 2
+ P.
+ .K
+ 2 1
+ 3 2
+ 정답 : 0
+
+ 3
+ P..
+ .KK
+ ...
+ 3 2 4
+ 7 4 2
+ 2 3 1
+ 정답 : 2
+ */
