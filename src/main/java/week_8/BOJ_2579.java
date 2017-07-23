@@ -12,26 +12,25 @@ public class BOJ_2579 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
-        int[] score = new int[N+1];
+        int[] score = new int[N];
         for (int i = 0; i < N; i++) {
             score[i] = Integer.parseInt(br.readLine());
         }
-        setAccScore(score);
+        printMaxValue(score);
         br.close();
     }
 
-    private static void setAccScore(int[] score) {
-        int[][] accScore = new int[score.length][2];
-        int size = score.length - 1;
-        //0행과 1행은 직접 입력
-        accScore[0][1] = score[0];                  //0을 밟은 경우
-        accScore[1][0] = score[1] + accScore[0][1]; //0과 1을 밟은 경우
-        accScore[1][1] = score[1];                  //0은 밟지 않고 1만 밟은 경우
-        for(int i=2; i<size; i++) {
-            accScore[i][0] = score[i] + accScore[i-1][1];                               //전 계단을 밟은 경우
-            accScore[i][1] = score[i] + Math.max(accScore[i-2][0], accScore[i-2][1]);   //전 계단을 밟지 않은 경우 -2번째 계단 값과 더함
+    private static void printMaxValue(int[] score) {
+        int[][] dp = new int[score.length][2];
+        dp[0][0] = 0;
+        dp[0][1] = score[0];
+        dp[1][0] = score[1] + dp[0][1];
+        dp[1][1] = score[1];
+        for (int i=2; i<score.length; i++) {
+            dp[i][0] = score[i] + dp[i-1][1];
+            dp[i][1] = score[i] + Math.max(dp[i-2][0], dp[i-2][1]);
         }
-        System.out.println(Math.max(accScore[size-1][0], accScore[size-1][1]));
+        System.out.println(Math.max(dp[score.length - 1][0], dp[score.length - 1][1]));
     }
 
 }
