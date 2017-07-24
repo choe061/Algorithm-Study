@@ -10,6 +10,10 @@ import java.util.StringTokenizer;
 
 /**
  * Created by choi on 2017. 7. 22..
+ * 다익스트라에서 A와 B를 들려야 하는 경우
+ * 1 -> A -> B -> N
+ * 1 -> B -> A -> N
+ * 두 가지 방법을 고려할 수 있음
  */
 public class BOJ_1504 {
     public static void main(String[] args) throws IOException {

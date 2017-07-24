@@ -9,6 +9,8 @@ import java.util.StringTokenizer;
 
 /**
  * Created by choi on 2017. 7. 23..
+ * 최대로 얻을 수 있는 사탕 개수이기 때문에 대각선으로 바로 이동하는 것 보다
+ * 오른쪽 -> 아래쪽, 아래쪽 -> 오른쪽으로 가는 방식이 더 많은 값을 가질 수 밖에 없다
  */
 public class Move_11048 {
     private static final int[] X = {1, 0, 1};
