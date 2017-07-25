@@ -13,6 +13,8 @@ import java.util.StringTokenizer;
  *
  * 현재 열쇠로 문을 열수 있으면 문서를 얻고 map에 있는 문과 문서를 벽(*)으로 만든다
  * 해당하는 문의 열쇠가 없으면 문의 위치(x,y)를 저장하고 열쇠를 얻었을때 그 문의 위치부터 시작한다
+ *
+ * 열쇠를 구했을때 그 열쇠로 열 수 있는 문의 좌표를 모두 저장해두어야함
  */
 public class Key_9328 {
     public static void main(String[] args) throws IOException {
