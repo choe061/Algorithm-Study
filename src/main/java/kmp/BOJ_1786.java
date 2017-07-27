@@ -45,7 +45,7 @@ public class BOJ_1786 {
             ArrayList<Integer> pi = new ArrayList<>();
             int m = p.length();
             int j = 0;
-            pi.add(0);                  //패턴 문자열의 첫번째 문자는 0
+            pi.add(0);                  //패턴 문자열의 첫번째 문자는 index 0
             for(int i=1; i<m; i++) {    //index 1부터 시작
                 while(j>0 && p.charAt(i) != p.charAt(j)) {
                     j = pi.get(j-1);    //이전의 데이터를 사용   ,(i번째와 j번째가 일치하는 경우) 이전의 데이터에 1을 증가시켜 삽입
