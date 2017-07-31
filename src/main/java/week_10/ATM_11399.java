@@ -31,6 +31,7 @@ public class ATM_11399 {
             dp[i] = dp[i-1] + line[i];
             sum += dp[i];
         }
+        System.out.println(Arrays.toString(dp));
         return sum;
     }
 }

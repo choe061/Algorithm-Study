@@ -10,7 +10,6 @@ import java.util.StringTokenizer;
 
 /**
  * Created by choi on 2017. 7. 30..
- * bfs -> 시간 초과
  */
 public class Cheeze_2638 {
     private static final int[] Y = {0, 0, -1, 1};
@@ -37,15 +36,10 @@ public class Cheeze_2638 {
     public static int getTime(int[][] map) {
         int time = 0;
         while (isCheeze(map)) {
+            ArrayList<Pair> cheeze = new ArrayList<>();
             //가장 외곽 i=1, N or j=1, M일땐 무조건 공기와 접촉해있음, 치즈안에 있는 경우가 없다
-            for (int i=2; i<N; i++) {
-                for (int j=2; j<M; j++) {
-                    if (map[i][j] == 0 || map[i][j] == 2) {
-                        bfs(map, i, j);
-                    }
-                }
-            }
-            search(map);
+            bfs(map, cheeze);
+            search(map, cheeze);
             time++;
             print(map, time);
         }
@@ -74,66 +68,70 @@ public class Cheeze_2638 {
         return false;
     }
 
-    //치즈 내부 공간(공기X)을 찾는 과정 (내부 공간은 2로 만들어주자)
-    private static void bfs(int[][] map, int y, int x) {
+    //치즈 내부 공간(공기X)을 찾는 과정
+    //내부 공기를 찾는게 아니라, 외부 공기를 찾는것!
+    //내부 공간은 그대로 0, 외부 공기를 2로 만든다
+    private static void bfs(int[][] map, ArrayList<Pair> cheeze) {
         Queue<Pair> queue = new LinkedList<>();
         boolean[][] visited = new boolean[N+1][M+1];
-        ArrayList<Pair> inner = new ArrayList<>();
-        Pair start = new Pair(y, x);
+        Pair start = new Pair(1, 1);
         queue.offer(start);
-        inner.add(start);
-        visited[y][x] = true;
+        visited[1][1] = true;
+        map[1][1] = 2;
 
         while (!queue.isEmpty()) {
             Pair pair = queue.poll();
             for (int i=0; i<4; i++) {
                 int adj_y = pair.getY() + Y[i];
                 int adj_x = pair.getX() + X[i];
-                if ((map[adj_y][adj_x] == 0 || map[adj_y][adj_x] == 2) && !visited[adj_y][adj_x]) {
-                    visited[adj_y][adj_x] = true;
-                    if (adj_y > 1 && adj_x > 1 && adj_y < N && adj_x < M) {
-                        //추가
-                        Pair p = new Pair(adj_y, adj_x);
-                        inner.add(p);
-                        queue.offer(p);
+                if (adj_y > 0 && adj_x > 0 && adj_y <= N && adj_x <= M) {
+                    if (map[adj_y][adj_x] == 1) {
+                        cheeze.add(new Pair(adj_y, adj_x));
                     }
-                    if (adj_y == 1 || adj_x == 1 || adj_y == N || adj_x == M) {
-                        //공기에 노출
-                        for (Pair p : inner) {
-                            map[p.getY()][p.getX()] = 0;
-                        }
-                        return ;
+                    if ((map[adj_y][adj_x] == 0 || map[adj_y][adj_x] == 2) && !visited[adj_y][adj_x]) {
+                        visited[adj_y][adj_x] = true;
+                        Pair p = new Pair(adj_y, adj_x);
+                        map[p.getY()][p.getX()] = 2;
+                        queue.offer(p);
                     }
                 }
             }
-        }
-        for (Pair p : inner) {
-            map[p.getY()][p.getX()] = 2;
         }
     }
 
     //녹는 치즈를 탐색
-    private static void search(int[][] map) {
+    private static void search(int[][] map, ArrayList<Pair> cheeze) {
         ArrayList<Pair> temp = new ArrayList<>();
-        for (int i=2; i<N; i++) {
-            for (int j=2; j<M; j++) {
-                if (map[i][j] == 1) {
-                    int air = 0;
-                    for (int z=0; z<4; z++) {
-                        int adj_y = i + Y[z];
-                        int adj_x = j + X[z];
-//                        if (adj_y > 0 && adj_x > 0 && adj_y <= N && adj_x <= M) {
-                        if (map[adj_y][adj_x] == 0) {
-                            if (++air >= 2) {
-                                temp.add(new Pair(i, j));
-                                break;
-                            }
-                        }
-//                        }
+        for (Pair pair : cheeze) {
+            int air = 0;
+            for (int z=0; z<4; z++) {
+                int adj_y = pair.getY() + Y[z];
+                int adj_x = pair.getX() + X[z];
+                if (map[adj_y][adj_x] == 2) {
+                    if (++air >= 2) {
+                        temp.add(new Pair(pair.getY(), pair.getX()));
+                        break;
                     }
                 }
             }
         }
+//        for (int i=2; i<N; i++) {
+//            for (int j=2; j<M; j++) {
+//                if (map[i][j] == 1) {
+//                    int air = 0;
+//                    for (int z=0; z<4; z++) {
+//                        int adj_y = i + Y[z];
+//                        int adj_x = j + X[z];
+//                        if (map[adj_y][adj_x] == 2) {
+//                            if (++air >= 2) {
+//                                temp.add(new Pair(i, j));
+//                                break;
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
         for (Pair pair : temp) {
             map[pair.getY()][pair.getX()] = 0;
         }
