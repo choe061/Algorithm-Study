@@ -10,6 +10,13 @@ import java.util.StringTokenizer;
 
 /**
  * Created by choi on 2017. 7. 30..
+ * visited 배열을 int형으로 만들고
+ * bfs탐색을 하면서 현재 위치가 공기이고, 인접 노드가 치즈이면 visited의 값을 1올리고
+ * visited가 2이면 두 면 이상 공기가 접촉된 것
+ *
+ * 외부 공기와 내부 공기를 구별하는 bfs탐색이랑
+ * 치즈를 지우는 search랑 나누어 두번 탐색할 필요가 없이
+ * bfs한번만 탐색
  */
 public class Cheeze_2638 {
     private static final int[] Y = {0, 0, -1, 1};
