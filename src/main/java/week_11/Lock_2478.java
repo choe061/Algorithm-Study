@@ -3,30 +3,24 @@ package week_11;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 /**
  * Created by choi on 2017. 8. 2..
- * 1 = A
- * 2 = B
- * 3 = A + B
- * 4 = A + B*2
- * 5 = A*2 + B*2
  */
-public class Tiger_2502 {
+public class Lock_2478 {
+    private static int N;
+    private static ArrayList<Integer> nums = new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        N = Integer.parseInt(br.readLine());
         StringTokenizer st = new StringTokenizer(br.readLine());
-        int D = Integer.parseInt(st.nextToken());
-        int K = Integer.parseInt(st.nextToken());
-
-        startNum(D, K);
+        for (int i=0; i<N; i++) {
+            nums.add(Integer.parseInt(st.nextToken()));
+        }
         br.close();
     }
 
-    private static int startNum(int D, int K) {
-
-        return 1;
-    }
 }
