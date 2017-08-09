@@ -11,7 +11,7 @@ import java.util.StringTokenizer;
 public class BOJ_2563 {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine());
+        int n = Integer.parseInt(br.readLine().trim());
         int[][] map = new int[102][102];
         int count = 0;
         for (int i = 0; i < n; i++) {
