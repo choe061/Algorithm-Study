@@ -93,6 +93,13 @@ public class Tomato_Easy_7576 {
                     spreadBadTomato(visited, tomato, countOfDay);
                 }
                 countOfDay++;
+                System.out.println(countOfDay+"--------------");
+                for (int i=0; i<N; i++) {
+                    for (int j=0; j<M; j++) {
+                        System.out.print(days[i][j] + " ");
+                    }
+                    System.out.println();
+                }
             }
             return getResult();
         }
@@ -122,7 +129,7 @@ public class Tomato_Easy_7576 {
             int max = Integer.MIN_VALUE;
             for (int i=0; i<N; i++) {
                 for (int j=0; j<M; j++) {
-                    if (days[i][j] == -2) {
+                    if (days[i][j] == -2 && map[i][j] != EMPTY) {
                         return -1;
                     }
                     max = Math.max(max, days[i][j]);
