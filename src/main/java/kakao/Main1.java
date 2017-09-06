@@ -15,39 +15,34 @@ public class Main1 {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(br.readLine());
         int m = Integer.parseInt(br.readLine());
-        int[][] picture = new int[n][m];
-        for (int i=0; i<n; i++) {
+        int n = Integer.parseInt(br.readLine());
+        int[][] picture = new int[m][n];
+        for (int i=0; i<m; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
-            for (int j=0; j<m; j++) {
+            for (int j=0; j<n; j++) {
                 picture[i][j] = Integer.parseInt(st.nextToken());
             }
         }
-        System.out.println(Arrays.toString(soultion(n, m, picture)));
+        System.out.println(Arrays.toString(solution(m, n, picture)));
         br.close();
     }
 
-    private static int[] soultion(int n, int m, int[][] picture) {
-        boolean[][] visited = new boolean[n][m];
-        HashMap<Integer, Integer> map = new HashMap<>();
+    private static int[] solution(int m, int n, int[][] picture) {
+        boolean[][] visited = new boolean[m][n];
         int max = Integer.MIN_VALUE;
-        for (int i=0; i<n; i++) {
-            for (int j=0; j<m; j++) {
-                int value = picture[i][j];
-                if (map.containsKey(value)) {
-                    map.put(value, map.get(value) + 1);
-                } else {
-                    map.put(value, 1);
-                }
-                if (!visited[i][j]) {
-                    max = Math.max(max, bfs(i, j, picture, visited, value));
+        int area = 0;
+        for (int i=0; i<m; i++) {
+            for (int j=0; j<n; j++) {
+                if (!visited[i][j] && picture[i][j] != 0) {
+                    area++;
+                    max = Math.max(max, bfs(i, j, picture, visited, picture[i][j]));
                 }
             }
         }
-        System.out.println("원소 갯수 : "+map.size());
+        System.out.println("원소 갯수 : "+area);
         System.out.println("최대값 : "+max);
-        return new int[]{map.size(), max};
+        return new int[]{area, max};
     }
     //i, j는 시작점
     private static int bfs(int i, int j, int[][] picture, boolean[][] visited, int value) {

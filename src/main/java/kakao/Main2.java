@@ -7,15 +7,21 @@ import java.util.StringTokenizer;
 
 /**
  * Created by choi on 2017. 8. 5..
+ * 3
+ * 6
+ * 0 2 0 0 0 2
+ * 0 0 2 0 1 0
+ * 1 0 0 2 2 0
+ * 정답 : 2
+ * 3
+ * 3
+ * 0 0 0
+ * 0 0 0
+ * 0 0 0
+ * 정답 : 6
  */
 public class Main2 {
-    static int MOD = 20170805;
-
-    private static int[] PY = {-1, 0};
-    private static int[] PX = {0, -1};
-
-    private static int[] NY = {1, 0};
-    private static int[] NX = {0, 1};
+    private static final int MOD = 20170805;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -28,65 +34,62 @@ public class Main2 {
                 map[i][j] = Integer.parseInt(st.nextToken());
             }
         }
-        System.out.println(soultion(m, n, map));
+        System.out.println(solution(m, n, map));
         br.close();
     }
 
-    private static int soultion(int m, int n, int[][] cityMap) {
-        int[][] dp = new int[m][n];
-
+    private static int solution(int m, int n, int[][] cityMap) {
+        Navi[][] dp = new Navi[m][n];
+        dp[0][0] = new Navi(1, 1);
         for (int i = 0; i < m; i++) {
             for (int j = 0; j < n; j++) {
-                if (i == 0 && j == 0) {
-                    dp[i][j] = 1;
-                } else {
-                    if (cityMap[i][j] == 1) {
-                        dp[i][j] = 0;
-                    } else if (cityMap[i][j] == 2) {    //현재 위치가 2인 경우 직진만
-                        if (i - 1 < 0) {
-                            dp[i][j] = dp[i][j - 1];
-                        } else if (j - 1 < 0) {
-                            dp[i][j] = dp[i - 1][j];
-                        } else {
-                            if (cityMap[i-1][j] == 2 && i == 1) {
-                                dp[i][j] = dp[i][j-1];
-                            } else if (cityMap[i][j-1] == 2 && j == 1) {
-                                dp[i][j] = dp[i-1][j];
-                            } else {
-                                if (i == m - 1) {
-                                    dp[i][j] = dp[i][j-1];
-                                } else if (j == n - 1) {
-                                    dp[i][j] = dp[i-1][j];
-                                } else {
-                                    dp[i][j] = Math.max(dp[i][j - 1], dp[i - 1][j]);
-                                }
-                            }
-                        }
-                    } else if (cityMap[i][j] == 0) {    //현재 위치가 0인 경우
-                        if (i - 1 < 0) {
-                            dp[i][j] = dp[i][j - 1];
-                        } else if (j - 1 < 0) {
-                            dp[i][j] = dp[i - 1][j];
-                        } else {
-                            if (cityMap[i-1][j] == 2 && i == 1 ) {
-                                dp[i][j] = dp[i][j-1];
-                            } else if (cityMap[i][j-1] == 2 && j == 1) {
-                                dp[i][j] = dp[i-1][j];
-                            } else {
-                                dp[i][j] = dp[i][j - 1] + dp[i - 1][j];
-                            }
-                        }
+                if (i != 0 || j != 0) {
+                    int right = 0, down = 0;
+                    if (i - 1 >= 0) {
+                        down = dp[i - 1][j].getV();
+                    }
+                    if (j - 1 >= 0) {
+                        right = dp[i][j - 1].getH();
+                    }
+                    if (cityMap[i][j] == 0) {
+                        int sum = (right + down) % MOD;
+                        dp[i][j] = new Navi(sum, sum);
+                    } else if (cityMap[i][j] == 1) {
+                        dp[i][j] = new Navi(0, 0);
+                    } else {
+                        dp[i][j] = new Navi(right, down);
                     }
                 }
             }
         }
 
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                System.out.print(dp[i][j] + " ");
-            }
-            System.out.println();
+        Navi end = dp[m - 1][n - 1];
+        return end.getH() % MOD;
+    }
+
+    static class Navi {
+        private int h;
+        private int v;
+
+        public Navi(int h, int v) {
+            this.h = h;
+            this.v = v;
         }
-        return dp[m - 1][n - 1];
+
+        public int getH() {
+            return h;
+        }
+
+        public int getV() {
+            return v;
+        }
+
+        public void setH(int h) {
+            this.h = h;
+        }
+
+        public void setV(int v) {
+            this.v = v;
+        }
     }
 }
